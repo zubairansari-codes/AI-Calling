@@ -1,0 +1,6 @@
+com\gasagency\dsc\controller\AuthController.class
+com\gasagency\dsc\security\JwtService.class
+com\gasagency\dsc\config\SecurityConfig.class
+com\gasagency\dsc\config\CorsConfig.class
+com\gasagency\dsc\DscCollectorApplication.class
+com\gasagency\dsc\config\JwtFilter.class

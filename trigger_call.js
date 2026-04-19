@@ -60,7 +60,8 @@ async function main() {
   try {
     // 1. Signup
     console.log('\n=== STEP 1: SIGNUP ===');
-    const loginRes = await post('/auth/signup', { agencyName: 'Live Test Agency', ownerName: 'Test', email: 'final2@test.com', phone: '7060912970', password: 'Password123' });
+    const email = `final-${Date.now()}@test.com`;
+    const loginRes = await post('/auth/signup', { agencyName: 'Live Test Agency', ownerName: 'Test', email: email, phone: '7060912970', password: 'Password123' });
     const token = loginRes.token;
     if (!token) { console.error('Login failed!', loginRes); return; }
     console.log('Token obtained:', token.substring(0, 30) + '...');

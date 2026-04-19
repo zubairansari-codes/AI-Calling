@@ -31,3 +31,15 @@ export function SkeletonTable({ rows = 5, cols = 4 }) {
     </div>
   );
 }
+
+export function SkeletonMetric() {
+  return (
+    <div className="glass-card" style={{ padding: '24px', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+        <Skeleton width="40%" height="16px" />
+        <Skeleton width="32px" height="32px" radius="8px" />
+      </div>
+      <Skeleton width="60%" height="32px" />
+    </div>
+  );
+}

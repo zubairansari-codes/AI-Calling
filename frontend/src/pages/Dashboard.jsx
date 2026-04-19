@@ -29,7 +29,8 @@ export default function Dashboard() {
       // Show real zeros instead of fake mock data
       setData({
         dscCollectedToday: 0, callsMadeToday: 0, transferredToday: 0, successRateToday: 0,
-        activeCampaign: null, recentCalls: []
+        activeCampaign: null, recentCalls: [],
+        totalDscAllTime: 0, totalCallsAllTime: 0, totalCampaigns: 0
       });
     } finally {
       setLoading(false);

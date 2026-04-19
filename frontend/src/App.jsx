@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Campaigns from './pages/Campaigns';
+import CampaignDetail from './pages/CampaignDetail';
 import Calls from './pages/Calls';
 import SetupWizard from './pages/SetupWizard';
 import Analytics from './pages/Analytics';
@@ -42,6 +43,7 @@ export default function App() {
               <Route index element={<Navigate to="/dashboard" replace />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="campaigns" element={<Campaigns />} />
+              <Route path="campaigns/:id" element={<CampaignDetail />} />
               <Route path="calls" element={<Calls />} />
               <Route path="setup" element={<SetupWizard />} />
               <Route path="analytics" element={<Analytics />} />

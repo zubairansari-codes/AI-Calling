@@ -74,6 +74,10 @@ public class ElevenLabsService {
      * Create a conversational AI agent for an agency on ElevenLabs.
      */
     public String createAgent(Agency agency, AgencySetupRequest setup) {
+        if (agency.getElevenLabsAgentId() != null && !agency.getElevenLabsAgentId().isBlank()) {
+            log.info("Agency {} already has ElevenLabs agent: {}. Skipping creation.", agency.getId(), agency.getElevenLabsAgentId());
+            return agency.getElevenLabsAgentId();
+        }
         String systemPrompt = buildAgentPrompt(
                 setup.agentName(),
                 agency.getName(),

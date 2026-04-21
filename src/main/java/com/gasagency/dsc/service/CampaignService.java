@@ -7,6 +7,7 @@ import com.gasagency.dsc.enums.CampaignStatus;
 import com.gasagency.dsc.repository.CallRepository;
 import com.gasagency.dsc.repository.CampaignRepository;
 import com.gasagency.dsc.repository.CustomerRepository;
+import com.gasagency.dsc.utils.PhoneUtils;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import jakarta.persistence.EntityNotFoundException;
@@ -232,7 +233,7 @@ public class CampaignService {
                 if (row.length < 2) continue;
 
                 String name = row[0].trim();
-                String phone = row[1].trim();
+                String phone = PhoneUtils.normalize(row[1].trim());
                 String address = row.length > 2 ? row[2].trim() : null;
                 String consumerNumber = row.length > 3 ? row[3].trim() : null;
 

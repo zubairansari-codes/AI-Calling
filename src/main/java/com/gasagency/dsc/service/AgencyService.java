@@ -5,6 +5,7 @@ import com.gasagency.dsc.dto.AgencySetupRequest;
 import com.gasagency.dsc.dto.AgencyUpdateRequest;
 import com.gasagency.dsc.entity.Agency;
 import com.gasagency.dsc.repository.AgencyRepository;
+import com.gasagency.dsc.utils.PhoneUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,11 +39,11 @@ public class AgencyService {
 
         if (request.name() != null) agency.setName(request.name());
         if (request.ownerName() != null) agency.setOwnerName(request.ownerName());
-        if (request.phone() != null) agency.setPhone(request.phone());
+        if (request.phone() != null) agency.setPhone(PhoneUtils.normalize(request.phone()));
         if (request.city() != null) agency.setCity(request.city());
         if (request.address() != null) agency.setAddress(request.address());
         if (request.agentName() != null) agency.setAgentName(request.agentName());
-        if (request.transferNumber() != null) agency.setTransferNumber(request.transferNumber());
+        if (request.transferNumber() != null) agency.setTransferNumber(PhoneUtils.normalize(request.transferNumber()));
 
         agency = agencyRepository.save(agency);
         log.info("Agency profile updated: {} (id={})", agency.getName(), agency.getId());
@@ -54,18 +55,12 @@ public class AgencyService {
         Agency agency = getAgencyEntity(agencyId);
 
         agency.setAgentName(request.agentName());
-        agency.setTransferNumber(request.transferNumber());
+        agency.setTransferNumber(PhoneUtils.normalize(request.transferNumber()));
 
         // Create ElevenLabs agent for this agency
-        try {
-            String elevenLabsAgentId = elevenLabsService.createAgent(agency, request);
-            agency.setElevenLabsAgentId(elevenLabsAgentId);
-            log.info("ElevenLabs agent created for agency {}: {}", agencyId, elevenLabsAgentId);
-        } catch (Exception e) {
-            log.warn("ElevenLabs agent creation failed for agency {}, continuing setup: {}",
-                    agencyId, e.getMessage());
-            // Setup can proceed without ElevenLabs — agent can be created later
-        }
+        String elevenLabsAgentId = elevenLabsService.createAgent(agency, request);
+        agency.setElevenLabsAgentId(elevenLabsAgentId);
+        log.info("ElevenLabs agent created for agency {}: {}", agencyId, elevenLabsAgentId);
 
         agency.setSetupCompleted(true);
         agency = agencyRepository.save(agency);

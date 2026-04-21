@@ -6,6 +6,7 @@ import com.gasagency.dsc.dto.SignupRequest;
 import com.gasagency.dsc.entity.Agency;
 import com.gasagency.dsc.repository.AgencyRepository;
 import com.gasagency.dsc.security.JwtService;
+import com.gasagency.dsc.utils.PhoneUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class AuthService {
                 .ownerName(request.ownerName())
                 .email(request.email())
                 .passwordHash(passwordEncoder.encode(request.password()))
-                .phone(request.phone())
+                .phone(PhoneUtils.normalize(request.phone()))
                 .city(request.city())
                 .role("AGENCY")
                 .build();

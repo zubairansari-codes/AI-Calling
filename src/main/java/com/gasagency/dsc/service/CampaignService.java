@@ -292,7 +292,8 @@ public class CampaignService {
         Campaign campaign = Campaign.builder()
                 .agency(agency)
                 .name(request.name())
-                .deliveryDate(request.deliveryDate())
+                .campaignType(CallType.DSC_COLLECTION)
+                .campaignConfig(Map.of("deliveryDate", request.deliveryDate().toString()))
                 .status(CampaignStatus.DRAFT)
                 .build();
         campaign = campaignRepository.save(campaign);

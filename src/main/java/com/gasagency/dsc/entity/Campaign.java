@@ -32,6 +32,7 @@ public class Campaign {
     @Column(nullable = false)
     private String name;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CampaignStatus status = CampaignStatus.DRAFT;
@@ -40,6 +41,7 @@ public class Campaign {
      * Call type for this campaign
      * Defaults to DSC_COLLECTION for backward compatibility
      */
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(name = "campaign_type", nullable = false)
     private CallType campaignType = CallType.DSC_COLLECTION;

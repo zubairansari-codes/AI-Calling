@@ -1,0 +1,578 @@
+{
+    "agent_id":  "agent_4501kpt0tsmye5xt0g7wwgaexwfv",
+    "name":  "test - DSC Agent",
+    "conversation_config":  {
+                                "asr":  {
+                                            "quality":  "high",
+                                            "provider":  "elevenlabs",
+                                            "user_input_audio_format":  "pcm_16000",
+                                            "keywords":  [
+
+                                                         ]
+                                        },
+                                "turn":  {
+                                             "turn_timeout":  6.0,
+                                             "initial_wait_time":  null,
+                                             "silence_end_call_timeout":  -1.0,
+                                             "soft_timeout_config":  {
+                                                                         "timeout_seconds":  -1.0,
+                                                                         "message":  "Hhmmmm...yeah.",
+                                                                         "use_llm_generated_message":  false
+                                                                     },
+                                             "mode":  "turn",
+                                             "turn_eagerness":  "normal",
+                                             "spelling_patience":  "auto",
+                                             "speculative_turn":  false,
+                                             "retranscribe_on_turn_timeout":  false,
+                                             "turn_model":  "turn_v2"
+                                         },
+                                "tts":  {
+                                            "model_id":  "eleven_flash_v2_5",
+                                            "voice_id":  "cjVigY5qzO86Huf0OWal",
+                                            "supported_voices":  [
+
+                                                                 ],
+                                            "expressive_mode":  false,
+                                            "suggested_audio_tags":  [
+
+                                                                     ],
+                                            "agent_output_audio_format":  "pcm_16000",
+                                            "optimize_streaming_latency":  3,
+                                            "stability":  0.5,
+                                            "speed":  1.0,
+                                            "similarity_boost":  0.8,
+                                            "text_normalisation_type":  "system_prompt",
+                                            "pronunciation_dictionary_locators":  [
+
+                                                                                  ]
+                                        },
+                                "conversation":  {
+                                                     "text_only":  false,
+                                                     "max_duration_seconds":  300,
+                                                     "client_events":  [
+                                                                           "audio",
+                                                                           "interruption",
+                                                                           "agent_response",
+                                                                           "user_transcript",
+                                                                           "agent_response_correction",
+                                                                           "agent_tool_response"
+                                                                       ],
+                                                     "file_input":  {
+                                                                        "enabled":  true,
+                                                                        "max_files_per_conversation":  10
+                                                                    },
+                                                     "monitoring_enabled":  false,
+                                                     "monitoring_events":  [
+                                                                               "user_transcript",
+                                                                               "agent_response",
+                                                                               "agent_response_correction"
+                                                                           ],
+                                                     "dtmf_input_settings":  null
+                                                 },
+                                "language_presets":  {
+
+                                                     },
+                                "vad":  {
+                                            "background_voice_detection":  true
+                                        },
+                                "agent":  {
+                                              "first_message":  "рдирдорд╕реНрддре? рд?ре?! рдоре?рд? Rahul рдмре?рд▓ рд░рд╣ре? рд╣ре?рдБ, test рд?ре?рд╕ рдПрд?ре?рд?рд╕ре? рд?ре? рддрд░рдл рд╕ре?ред рд?рдкрд?ре? рдпрд╣рд╛рдБ рд╣рд╛рд▓ рд╣ре? рдоре?рд? рдПрд? рд╕рд┐рд▓ре?рд?рдбрд░ рдбрд┐рд▓ре?рд╡рд░ рд╣реБрд? рдерд╛ т?? рд?реНрдпрд╛ рд?рдк рдбрд┐рд▓ре?рд╡рд░ре? рд?рд╛ DSC рдирд?рдмрд░ рдмрддрд╛ рд╕рд?рддре? рд╣ре?рд??",
+                                              "language":  "hi",
+                                              "hinglish_mode":  false,
+                                              "dynamic_variables":  {
+                                                                        "dynamic_variable_placeholders":  {
+
+                                                                                                          }
+                                                                    },
+                                              "disable_first_message_interruptions":  true,
+                                              "max_conversation_duration_message":  "",
+                                              "prompt":  {
+                                                             "prompt":  "# рд╡реНрдпрд?реНрддрд┐рддреНрд╡ (Personality)\nрд?рдк Rahul рд╣ре?рд?, test рд?ре?рд╕ рдПрд?ре?рд?рд╕ре?, test рд?ре? рддрд░рдл рд╕ре? рдПрд? рд╡рд┐рдирдореНрд░ рд?рд░ рд?реБрд╢рд▓ AI рд╕рд╣рд╛рдпрд?ред рд?рдкрд?рд╛ рд?рд╛рдо рд?реНрд░рд╛рд╣рд?ре?рд? рд?ре? рд╣рд╛рд▓ рд╣ре? рдоре?рд? рд╣реБрд? рд?ре?рд╕ рд╕рд┐рд▓ре?рд?рдбрд░ рдбрд┐рд▓ре?рд╡рд░ре? рд?ре? рдкреБрд╖реНрд?рд┐ рд?рд░рдирд╛ рд╣ре?ред рд?рдк рдорджрджрд?рд╛рд░, рд╕реНрдкрд╖реНрд? рд?рд░ рдмрд╛рддрд?ре?рдд рд?ре? рд╕рд╣рд? рдмрдирд╛рдире? рд╡рд╛рд▓ре? рд╣ре?рд?ред рд?рдк рдзрд╛рд░рд╛рдкреНрд░рд╡рд╛рд╣ рд?рд░ рд╕реНрд╡рд╛рднрд╛рд╡рд┐рд? рд╣рд┐рд?рджре? рдмре?рд▓рддре? рд╣ре?рд?ред\n\n# рдкрд░рд┐рд╡ре?рд╢ (Environment)\nрд?рдк рд?ре?рд╕ рдПрд?ре?рд?рд╕ре? рд?ре? рд?реНрд░рд╛рд╣рд? рд╕ре? рдлре?рди рдкрд░ рдмрд╛рдд рд?рд░ рд░рд╣ре? рд╣ре?рд?ред рд?реНрд░рд╛рд╣рд? рд╢рд╛рдпрдж рд╡реНрдпрд╕реНрдд рд╣ре? рд╕рд?рддрд╛ рд╣ре? рдпрд╛ рд╢ре?рд░рд?реБрд▓ рд╡рд╛рд▓ре? рдорд╛рд╣ре?рд▓ рдоре?рд? рд╣ре? рд╕рд?рддрд╛ рд╣ре?, рд?рд╕рд▓рд┐рдП рд\u0085рдкрдире? рдкреНрд░рд╢реНрди рд╕реНрдкрд╖реНрд? рд?рд░ рд╕рд?рд?реНрд╖рд┐рдкреНрдд рд░рд?ре?рд?ред рдмрд╛рддрд?ре?рдд рд╣рд┐рд?рджре? рдоре?рд? рд╣ре?рд?ре?ред\n\n# рд╕реНрд╡рд░ рд?рд░ рд╢ре?рд▓ре? (Tone)\n- рд?рд╡рд╛рд?рд╝ рд╣рдоре?рд╢рд╛ рд╡рд┐рдирдореНрд░, рд╕рдореНрдорд╛рдирд?рдирд? рд?рд░ рдкре?рд╢ре?рд╡рд░ рд░рд╣ре?\n- рд╕реНрд╡рд╛рднрд╛рд╡рд┐рд? рд╣рд┐рд?рджре? рдмре?рд▓ре?рд? т?? \u0027рд?ре?\u0027, \u0027рдаре?рд? рд╣ре?\u0027, \u0027рджрд░рд\u0085рд╕рд▓\u0027 рд?ре?рд╕ре? рд╢рдмреНрджре?рд? рд?рд╛ рд?рдкрдпре?рд? рд?рд░ре?рд?\n- рд╕реНрдкрд╖реНрд? рд?рд░ рдордзреНрдпрдо рд?рддрд┐ рд╕ре? рдмре?рд▓ре?рд?\n- рдПрд? рд╕рдордп рдоре?рд? SIRF рдПрд? рд╣ре? рдкреНрд░рд╢реНрди рдкре?рд?ре?рд?\n- рд╣рд░ рд?рд╡рд╛рдм рд\u0085рдзрд┐рд?рддрдо 1-2 рд╡рд╛рд?реНрдпре?рд? рдоре?рд? рджре?рд?\n- рдпрджрд┐ рд?реНрд░рд╛рд╣рд? рднреНрд░рдорд┐рдд рд▓рд?ре?, рддре? рдкреНрд░рд╢реНрди рд╕рд░рд▓ рд╢рдмреНрджре?рд? рдоре?рд? рджре?рд╣рд░рд╛рдПрдБ\n\n# рд▓рд?реНрд╖реНрдп (Goal)\nрд?реНрд░рд╛рд╣рд? рд╕ре? DSC (Delivery Status Confirmation) рдирд?рдмрд░ рдПрд?рддреНрд░ рд?рд░рдирд╛ рддрд╛рд?рд┐ рд?рдирд?ре? рд╣рд╛рд▓ рд╣ре? рдоре?рд? рд╣реБрд? рд?ре?рд╕ рд╕рд┐рд▓ре?рд?рдбрд░ рдбрд┐рд▓ре?рд╡рд░ре? рд?ре? рдкреБрд╖реНрд?рд┐ рд╣ре? рд╕рд?ре?ред\n\n# рдмрд╛рддрд?ре?рдд рд?рд╛ рд?реНрд░рдо (Conversation Flow)\nрд?рд░рдг 1: рд\u0085рднрд┐рд╡рд╛рджрди рдкрд╣рд▓ре? рд╕ре? рд╣ре? рд?реБрд?рд╛ рд╣ре? (first_message рд╕ре?)ред рд?реНрд░рд╛рд╣рд? рд?рд╛ рд?рд╡рд╛рдм рд╕реБрдире?рд?ред\nрд?рд░рдг 2: рдпрджрд┐ рд?реНрд░рд╛рд╣рд? DSC рдирд?рдмрд░ рджре?, рддре? рдаре?рд? 4 рд\u0085рд?рд? рд?рд╛рдБрд?ре?рд?ред\n  - 4 рд\u0085рд?рд? рдирд╣ре?рд? рд╣ре?рд? рддре? рд?рд╣ре?рд?: \"рд?ре?, DSC рд?ре?рдб рд╕рд┐рд░реНрдл 4 рдирд?рдмрд░ рд?рд╛ рд╣ре?рддрд╛ рд╣ре?, SMS рдПрд? рдмрд╛рд░ рджре?рд? рд▓ре?рд?рд┐рдПред\"\nрд?рд░рдг 3: 4 рд\u0085рд?рд? рдорд┐рд▓ре?рд? рддре? рджре?рд╣рд░рд╛рд?рд░ рдкреБрд╖реНрд?рд┐ рд?рд░ре?рд?: \"рдаре?рд? рд╣ре?, [рд\u0085рд?рд?-1]-[рд\u0085рд?рд?-2]-[рд\u0085рд?рд?-3]-[рд\u0085рд?рд?-4]... рд╕рд╣ре? рд╣ре? рди рд?ре??\"\nрд?рд░рдг 4: рд?реНрд░рд╛рд╣рд? рдкреБрд╖реНрд?рд┐ рд?рд░ре? рддре? рддреБрд░рд?рдд submit_dsc tool call рд?рд░ре?рд?ред\nрд?рд░рдг 5: Tool рд╕рдлрд▓ рд╣ре?рдире? рдкрд░ SIRF рд?рд╣ре?рд?: \"рдмрд╣реБрдд рдзрдиреНрдпрд╡рд╛рдж рд?ре?! DSC confirm рд╣ре? рд?рдпрд╛ред рдирдорд╕реНрддре?!\" т?? рдлрд┐рд░ рддреБрд░рд?рдд \u0027end_call\u0027 invoke рд?рд░ре?рд?ред\n\nрдорд╣рддреНрд╡рдкре?рд░реНрдг: рд?рд░рдг 5 рд?ре? рдмрд╛рдж рд?рд░ рд?реБрд? рдордд рдмре?рд▓ре?рд?ред рд╕ре?рдзре? \u0027end_call\u0027 tool call рд?рд░ре?рд?ред\n\n# рдпрджрд┐ DSC рдирд╣ре?рд? рд╣ре? (No DSC Scenarios)\n- рдпрджрд┐ рд?реНрд░рд╛рд╣рд? рд?ре? рдбрд┐рд▓ре?рд╡рд░ре? рдорд┐рд▓ре? рдкрд░ DSC рдирд╣ре?рд? рдкрддрд╛: \"рдаре?рд? рд╣ре? рд?ре?, рд?ре?рд? рдмрд╛рдд рдирд╣ре?рд?ред рдоре?рд? рдире?рд? рд?рд░ рд▓ре?рддре? рд╣ре?рдБред\" т?? submit_dsc рд╕ре? status=\u0027no_dsc\u0027 рднре?рд?ре?рд?, рдлрд┐рд░ end_callред\n- рдпрджрд┐ рдбрд┐рд▓ре?рд╡рд░ре? рд╣ре? рдирд╣ре?рд? рдорд┐рд▓ре?: \"рдаре?рд? рд╣ре? рд?ре?, рдоре?рд? рдире?рд? рд?рд░ рд▓ре?рддре? рд╣ре?рдБред рд?рд┐рд╕ре? рд╕рдорд╕реНрдпрд╛ рд?ре? рд▓рд┐рдП рд╣рдорд╛рд░ре? 21321323 рдирд?рдмрд░ рдкрд░ рд╕рд?рдкрд░реНрд? рд?рд░ре?рд?ред\" т?? end_callред\n\n# рд?рдкрд╛рддрд?рд╛рд▓ (Emergency)\n- рд?ре?рд╕ рд▓ре?рд? рд?рд╛ рд?рд▓реНрд▓ре?рд? рд╣ре?: \"рд?ре? рддреБрд░рд?рдд рд?рд░ рд╕ре? рдмрд╛рд╣рд░ рдирд┐рд?рд▓рд┐рдП! рд?рдкрд╛рддрд?рд╛рд▓ре?рди рдирд?рдмрд░ 101 рдкрд░ рд\u0085рднре? call рд?рд░ре?рд?!\" т?? end_callред\n\n# рд╕ре?рдорд╛рдПрдБ (Guardrails)\n- рд╕рд┐рд░реНрдл DSC рдирд?рдмрд░ рдПрд?рддреНрд░ рд?рд░рдире? рдпрд╛ рдбрд┐рд▓ре?рд╡рд░ре? рд?ре? рдкреБрд╖реНрд?рд┐ рдкрд░ рдзреНрдпрд╛рди рджре?рд?\n- рдмрд┐рд▓рд┐рд?рд?, рдирд? рдмреБрд?рд┐рд?рд?, рд╢рд┐рд?рд╛рдпрддре?рд? рдкрд░ рд?рд░реНрд?рд╛ рди рд?рд░ре?рд? т?? рд?рд╣ре?рд?: \"рд?рд╕рд?ре? рд▓рд┐рдП рд?рдк рд╣рдорд╛рд░ре? 21321323 рдирд?рдмрд░ рдкрд░ рдмрд╛рдд рд?рд░ре?рд?ред\"\n- рд?рднре? рднре? Aadhaar, рдмре?рд?рд? рд╡рд┐рд╡рд░рдг, OTP рди рдорд╛рдБрд?ре?рд?\n- рдпрджрд┐ рд?реНрд░рд╛рд╣рд? рд\u0085рд╕рд╣рдордд рдпрд╛ рдирд┐рд░рд╛рд╢ рд╣ре?, рддре? рд╡рд┐рдирдореНрд░рддрд╛ рд╕ре? рдзрдиреНрдпрд╡рд╛рдж рд?рд╣ре?рд? рд?рд░ call рд╕рдорд╛рдкреНрдд рд?рд░ре?рд?\n- DSC submit рд╣ре?рдире? рд?ре? рдмрд╛рдж рд?ре?рд? loop рдирд╣ре?рд? т?? рд╕ре?рдзре? end_call\n",
+                                                             "llm":  "custom-llm",
+                                                             "reasoning_effort":  null,
+                                                             "thinking_budget":  null,
+                                                             "temperature":  0.2,
+                                                             "max_tokens":  -1,
+                                                             "tool_ids":  [
+                                                                              "tool_9801kpt0tt9qe888z68zxnxpk2k9"
+                                                                          ],
+                                                             "built_in_tools":  {
+                                                                                    "end_call":  {
+                                                                                                     "type":  "system",
+                                                                                                     "name":  "end_call",
+                                                                                                     "description":  "Automatically end and hang up the phone call. DO NOT use this tool until AFTER you have successfully called the \u0027submit_dsc\u0027 tool, or if the customer explicitly hangs up or refuses to talk.",
+                                                                                                     "response_timeout_secs":  20,
+                                                                                                     "disable_interruptions":  false,
+                                                                                                     "force_pre_tool_speech":  false,
+                                                                                                     "assignments":  [
+
+                                                                                                                     ],
+                                                                                                     "tool_call_sound":  null,
+                                                                                                     "tool_call_sound_behavior":  "auto",
+                                                                                                     "tool_error_handling_mode":  "auto",
+                                                                                                     "params":  {
+                                                                                                                    "system_tool_type":  "end_call"
+                                                                                                                }
+                                                                                                 },
+                                                                                    "language_detection":  null,
+                                                                                    "transfer_to_agent":  null,
+                                                                                    "transfer_to_number":  null,
+                                                                                    "skip_turn":  null,
+                                                                                    "play_keypad_touch_tone":  null,
+                                                                                    "voicemail_detection":  null,
+                                                                                    "update_state":  null,
+                                                                                    "memory_entry_search":  null,
+                                                                                    "memory_entry_create":  null,
+                                                                                    "memory_entry_update":  null,
+                                                                                    "memory_entry_delete":  null,
+                                                                                    "agent_prompt_change":  null,
+                                                                                    "procedure_update":  null,
+                                                                                    "transfer_to_genesys_chat":  null,
+                                                                                    "search_documentation":  null
+                                                                                },
+                                                             "enable_parallel_tool_calls":  false,
+                                                             "mcp_server_ids":  [
+
+                                                                                ],
+                                                             "native_mcp_server_ids":  [
+
+                                                                                       ],
+                                                             "knowledge_base":  [
+
+                                                                                ],
+                                                             "custom_llm":  {
+                                                                                "url":  "https://api.groq.com/openai/v1",
+                                                                                "model_id":  "llama-3.1-8b-instant",
+                                                                                "api_key":  {
+                                                                                                "secret_id":  "zIwwDWPv2K5ZUKN9JbSB"
+                                                                                            },
+                                                                                "request_headers":  {
+
+                                                                                                    },
+                                                                                "api_version":  null,
+                                                                                "api_type":  "chat_completions"
+                                                                            },
+                                                             "ignore_default_personality":  false,
+                                                             "rag":  {
+                                                                         "enabled":  false,
+                                                                         "embedding_model":  "e5_mistral_7b_instruct",
+                                                                         "max_vector_distance":  0.6,
+                                                                         "max_documents_length":  50000,
+                                                                         "max_retrieved_rag_chunks_count":  20,
+                                                                         "num_candidates":  null,
+                                                                         "query_rewrite_prompt_override":  null
+                                                                     },
+                                                             "timezone":  null,
+                                                             "backup_llm_config":  {
+                                                                                       "preference":  "default"
+                                                                                   },
+                                                             "cascade_timeout_seconds":  8.0,
+                                                             "tools":  [
+                                                                           {
+                                                                               "type":  "webhook",
+                                                                               "name":  "submit_dsc",
+                                                                               "description":  "Call this tool ONLY after the customer verbally confirms their 4-digit DSC code. Pass status as \u0027dsc_collected\u0027 and the exact 4-digit number as dscNumber.",
+                                                                               "response_timeout_secs":  20,
+                                                                               "disable_interruptions":  false,
+                                                                               "force_pre_tool_speech":  false,
+                                                                               "assignments":  [
+
+                                                                                               ],
+                                                                               "tool_call_sound":  null,
+                                                                               "tool_call_sound_behavior":  "auto",
+                                                                               "tool_error_handling_mode":  "auto",
+                                                                               "dynamic_variables":  {
+                                                                                                         "dynamic_variable_placeholders":  {
+
+                                                                                                                                           }
+                                                                                                     },
+                                                                               "execution_mode":  "immediate",
+                                                                               "api_schema":  {
+                                                                                                  "request_headers":  {
+
+                                                                                                                      },
+                                                                                                  "url":  "https://duchesslike-unlibellously-lovetta.ngrok-free.dev/webhook/elevenlabs",
+                                                                                                  "method":  "POST",
+                                                                                                  "path_params_schema":  {
+
+                                                                                                                         },
+                                                                                                  "query_params_schema":  null,
+                                                                                                  "request_body_schema":  {
+                                                                                                                              "type":  "object",
+                                                                                                                              "required":  [
+                                                                                                                                               "status",
+                                                                                                                                               "dscNumber"
+                                                                                                                                           ],
+                                                                                                                              "description":  "",
+                                                                                                                              "properties":  {
+                                                                                                                                                 "status":  {
+                                                                                                                                                                "type":  "string",
+                                                                                                                                                                "description":  "Must be \u0027dsc_collected\u0027",
+                                                                                                                                                                "enum":  null,
+                                                                                                                                                                "is_system_provided":  false,
+                                                                                                                                                                "dynamic_variable":  "",
+                                                                                                                                                                "constant_value":  ""
+                                                                                                                                                            },
+                                                                                                                                                 "dscNumber":  {
+                                                                                                                                                                   "type":  "string",
+                                                                                                                                                                   "description":  "The EXACT 4-digit DSC code confirmed by the customer",
+                                                                                                                                                                   "enum":  null,
+                                                                                                                                                                   "is_system_provided":  false,
+                                                                                                                                                                   "dynamic_variable":  "",
+                                                                                                                                                                   "constant_value":  ""
+                                                                                                                                                               }
+                                                                                                                                             }
+                                                                                                                          },
+                                                                                                  "content_type":  "application/json",
+                                                                                                  "auth_connection":  null
+                                                                                              }
+                                                                           },
+                                                                           {
+                                                                               "type":  "system",
+                                                                               "name":  "end_call",
+                                                                               "description":  "Automatically end and hang up the phone call. DO NOT use this tool until AFTER you have successfully called the \u0027submit_dsc\u0027 tool, or if the customer explicitly hangs up or refuses to talk.",
+                                                                               "response_timeout_secs":  20,
+                                                                               "disable_interruptions":  false,
+                                                                               "force_pre_tool_speech":  false,
+                                                                               "assignments":  [
+
+                                                                                               ],
+                                                                               "tool_call_sound":  null,
+                                                                               "tool_call_sound_behavior":  "auto",
+                                                                               "tool_error_handling_mode":  "auto",
+                                                                               "params":  {
+                                                                                              "system_tool_type":  "end_call"
+                                                                                          }
+                                                                           }
+                                                                       ]
+                                                         }
+                                          }
+                            },
+    "metadata":  {
+                     "created_at_unix_secs":  1776842271,
+                     "updated_at_unix_secs":  1776843709
+                 },
+    "platform_settings":  {
+                              "evaluation":  {
+                                                 "criteria":  [
+
+                                                              ]
+                                             },
+                              "widget":  {
+                                             "variant":  "full",
+                                             "placement":  "bottom-right",
+                                             "expandable":  "never",
+                                             "avatar":  {
+                                                            "type":  "orb",
+                                                            "color_1":  "#2792dc",
+                                                            "color_2":  "#9ce6e6"
+                                                        },
+                                             "feedback_mode":  "during",
+                                             "end_feedback":  {
+                                                                  "type":  "rating"
+                                                              },
+                                             "bg_color":  "#ffffff",
+                                             "text_color":  "#000000",
+                                             "btn_color":  "#000000",
+                                             "btn_text_color":  "#ffffff",
+                                             "border_color":  "#e1e1e1",
+                                             "focus_color":  "#000000",
+                                             "border_radius":  null,
+                                             "btn_radius":  null,
+                                             "action_text":  null,
+                                             "start_call_text":  null,
+                                             "end_call_text":  null,
+                                             "expand_text":  null,
+                                             "listening_text":  null,
+                                             "speaking_text":  null,
+                                             "shareable_page_text":  null,
+                                             "shareable_page_show_terms":  true,
+                                             "terms_text":  "#### Terms and conditions\n\nBy clicking \"Agree,\" and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy.\nIf you do not wish to have your conversations recorded, please refrain from using this service.",
+                                             "terms_html":  "\u003ch4\u003eTerms and conditions\u003c/h4\u003e\n\u003cp\u003eBy clicking \u0026quot;Agree,\u0026quot; and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy.\nIf you do not wish to have your conversations recorded, please refrain from using this service.\u003c/p\u003e\n",
+                                             "terms_key":  null,
+                                             "show_avatar_when_collapsed":  false,
+                                             "disable_banner":  false,
+                                             "override_link":  null,
+                                             "markdown_link_allowed_hosts":  [
+
+                                                                             ],
+                                             "markdown_link_include_www":  true,
+                                             "markdown_link_allow_http":  true,
+                                             "mic_muting_enabled":  false,
+                                             "transcript_enabled":  false,
+                                             "text_input_enabled":  true,
+                                             "conversation_mode_toggle_enabled":  false,
+                                             "default_expanded":  false,
+                                             "always_expanded":  false,
+                                             "dismissible":  false,
+                                             "show_agent_status":  false,
+                                             "show_conversation_id":  true,
+                                             "strip_audio_tags":  true,
+                                             "syntax_highlight_theme":  null,
+                                             "text_contents":  {
+                                                                   "main_label":  null,
+                                                                   "start_call":  null,
+                                                                   "start_chat":  null,
+                                                                   "new_call":  null,
+                                                                   "end_call":  null,
+                                                                   "mute_microphone":  null,
+                                                                   "change_language":  null,
+                                                                   "collapse":  null,
+                                                                   "expand":  null,
+                                                                   "copied":  null,
+                                                                   "accept_terms":  null,
+                                                                   "dismiss_terms":  null,
+                                                                   "listening_status":  null,
+                                                                   "speaking_status":  null,
+                                                                   "connecting_status":  null,
+                                                                   "chatting_status":  null,
+                                                                   "input_label":  null,
+                                                                   "input_placeholder":  null,
+                                                                   "input_placeholder_text_only":  null,
+                                                                   "input_placeholder_new_conversation":  null,
+                                                                   "user_ended_conversation":  null,
+                                                                   "agent_ended_conversation":  null,
+                                                                   "conversation_id":  null,
+                                                                   "error_occurred":  null,
+                                                                   "copy_id":  null,
+                                                                   "initiate_feedback":  null,
+                                                                   "request_follow_up_feedback":  null,
+                                                                   "thanks_for_feedback":  null,
+                                                                   "thanks_for_feedback_details":  null,
+                                                                   "follow_up_feedback_placeholder":  null,
+                                                                   "submit":  null,
+                                                                   "go_back":  null,
+                                                                   "send_message":  null,
+                                                                   "text_mode":  null,
+                                                                   "voice_mode":  null,
+                                                                   "switched_to_text_mode":  null,
+                                                                   "switched_to_voice_mode":  null,
+                                                                   "copy":  null,
+                                                                   "download":  null,
+                                                                   "wrap":  null,
+                                                                   "agent_working":  null,
+                                                                   "agent_done":  null,
+                                                                   "agent_error":  null
+                                                               },
+                                             "styles":  {
+                                                            "base":  null,
+                                                            "base_hover":  null,
+                                                            "base_active":  null,
+                                                            "base_border":  null,
+                                                            "base_subtle":  null,
+                                                            "base_primary":  null,
+                                                            "base_error":  null,
+                                                            "accent":  null,
+                                                            "accent_hover":  null,
+                                                            "accent_active":  null,
+                                                            "accent_border":  null,
+                                                            "accent_subtle":  null,
+                                                            "accent_primary":  null,
+                                                            "overlay_padding":  null,
+                                                            "button_radius":  null,
+                                                            "input_radius":  null,
+                                                            "bubble_radius":  null,
+                                                            "sheet_radius":  null,
+                                                            "compact_sheet_radius":  null,
+                                                            "dropdown_sheet_radius":  null
+                                                        },
+                                             "language_selector":  false,
+                                             "supports_text_only":  true,
+                                             "custom_avatar_path":  null,
+                                             "language_presets":  {
+
+                                                                  }
+                                         },
+                              "data_collection":  {
+
+                                                  },
+                              "data_collection_scopes":  {
+
+                                                         },
+                              "overrides":  {
+                                                "conversation_config_override":  {
+                                                                                     "turn":  {
+                                                                                                  "soft_timeout_config":  {
+                                                                                                                              "message":  false
+                                                                                                                          }
+                                                                                              },
+                                                                                     "tts":  {
+                                                                                                 "voice_id":  false,
+                                                                                                 "stability":  false,
+                                                                                                 "speed":  false,
+                                                                                                 "similarity_boost":  false
+                                                                                             },
+                                                                                     "conversation":  {
+                                                                                                          "text_only":  true
+                                                                                                      },
+                                                                                     "agent":  {
+                                                                                                   "first_message":  false,
+                                                                                                   "language":  false,
+                                                                                                   "max_conversation_duration_message":  false,
+                                                                                                   "prompt":  {
+                                                                                                                  "prompt":  false,
+                                                                                                                  "llm":  false,
+                                                                                                                  "tool_ids":  false,
+                                                                                                                  "native_mcp_server_ids":  false,
+                                                                                                                  "knowledge_base":  false
+                                                                                                              }
+                                                                                               }
+                                                                                 },
+                                                "custom_llm_extra_body":  false,
+                                                "enable_conversation_initiation_client_data_from_webhook":  false,
+                                                "enable_starting_workflow_node_id_from_client":  false
+                                            },
+                              "workspace_overrides":  {
+                                                          "conversation_initiation_client_data_webhook":  null,
+                                                          "webhooks":  {
+                                                                           "post_call_webhook_id":  null,
+                                                                           "events":  [
+                                                                                          "transcript"
+                                                                                      ],
+                                                                           "send_audio":  false
+                                                                       }
+                                                      },
+                              "testing":  {
+                                              "attached_tests":  [
+
+                                                                 ],
+                                              "referenced_tests_ids":  [
+
+                                                                       ]
+                                          },
+                              "archived":  false,
+                              "guardrails":  {
+                                                 "version":  "1",
+                                                 "focus":  {
+                                                               "is_enabled":  false
+                                                           },
+                                                 "prompt_injection":  {
+                                                                          "is_enabled":  false
+                                                                      },
+                                                 "content":  {
+                                                                 "execution_mode":  "streaming",
+                                                                 "config":  {
+                                                                                "sexual":  {
+                                                                                               "is_enabled":  false,
+                                                                                               "threshold":  "medium"
+                                                                                           },
+                                                                                "violence":  {
+                                                                                                 "is_enabled":  false,
+                                                                                                 "threshold":  "medium"
+                                                                                             },
+                                                                                "harassment":  {
+                                                                                                   "is_enabled":  false,
+                                                                                                   "threshold":  "medium"
+                                                                                               },
+                                                                                "self_harm":  {
+                                                                                                  "is_enabled":  false,
+                                                                                                  "threshold":  "medium"
+                                                                                              },
+                                                                                "profanity":  {
+                                                                                                  "is_enabled":  false,
+                                                                                                  "threshold":  "medium"
+                                                                                              },
+                                                                                "religion_or_politics":  {
+                                                                                                             "is_enabled":  false,
+                                                                                                             "threshold":  "medium"
+                                                                                                         },
+                                                                                "medical_and_legal_information":  {
+                                                                                                                      "is_enabled":  false,
+                                                                                                                      "threshold":  "medium"
+                                                                                                                  }
+                                                                            },
+                                                                 "trigger_action":  {
+                                                                                        "type":  "end_call"
+                                                                                    }
+                                                             },
+                                                 "moderation":  null,
+                                                 "custom":  {
+                                                                "config":  {
+                                                                               "configs":  [
+
+                                                                                           ]
+                                                                           }
+                                                            }
+                                             },
+                              "summary_language":  null,
+                              "auth":  {
+                                           "enable_auth":  false,
+                                           "allowlist":  [
+
+                                                         ],
+                                           "require_origin_header":  false,
+                                           "shareable_token":  null
+                                       },
+                              "call_limits":  {
+                                                  "agent_concurrency_limit":  -1,
+                                                  "daily_limit":  100000,
+                                                  "bursting_enabled":  true
+                                              },
+                              "ban":  null,
+                              "smb_metadata":  null,
+                              "privacy":  {
+                                              "record_voice":  true,
+                                              "retention_days":  -1,
+                                              "delete_transcript_and_pii":  false,
+                                              "delete_audio":  false,
+                                              "apply_to_existing_conversations":  false,
+                                              "zero_retention_mode":  false,
+                                              "conversation_history_redaction":  {
+                                                                                     "enabled":  false,
+                                                                                     "entities":  [
+
+                                                                                                  ]
+                                                                                 }
+                                          },
+                              "analysis_llm":  "gemini-2.5-flash",
+                              "safety":  {
+                                             "is_blocked_ivc":  false,
+                                             "is_blocked_non_ivc":  false,
+                                             "ignore_safety_evaluation":  false
+                                         }
+                          },
+    "phone_numbers":  [
+
+                      ],
+    "whatsapp_accounts":  [
+
+                          ],
+    "workflow":  {
+                     "edges":  {
+
+                               },
+                     "nodes":  {
+                                   "start_node":  {
+                                                      "type":  "start",
+                                                      "position":  {
+                                                                       "x":  0.0,
+                                                                       "y":  0.0
+                                                                   },
+                                                      "edge_order":  [
+
+                                                                     ]
+                                                  }
+                               },
+                     "prevent_subagent_loops":  false
+                 },
+    "access_info":  {
+                        "is_creator":  true,
+                        "creator_name":  "Zubair Ansari",
+                        "creator_email":  "zubairansari.codes@gmail.com",
+                        "role":  "admin"
+                    },
+    "tags":  [
+
+             ],
+    "version_id":  null,
+    "branch_id":  null,
+    "main_branch_id":  null,
+    "coaching_settings":  null,
+    "procedures":  {
+
+                   },
+    "procedures_enabled":  false,
+    "procedure_settings":  {
+                               "compiler_mode":  "llm"
+                           }
+}

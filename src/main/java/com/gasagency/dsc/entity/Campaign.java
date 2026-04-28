@@ -32,9 +32,6 @@ public class Campaign {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "delivery_date", nullable = false)
-    private LocalDate deliveryDate;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CampaignStatus status = CampaignStatus.DRAFT;
@@ -63,9 +60,10 @@ public class Campaign {
     private Map<String, Object> campaignConfig;
 
     // Backward compatibility field
+    @Builder.Default
     @Column(name = "delivery_date")
     @Deprecated
-    private LocalDate deliveryDate;
+    private LocalDate deliveryDate = null;
 
     @Builder.Default
     @Column(name = "total_customers")

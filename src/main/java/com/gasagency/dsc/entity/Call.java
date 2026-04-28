@@ -122,7 +122,8 @@ public class Call {
             return dscNumber;
         }
         // Try to get from dynamic data
-        return getCallDataField("dscNumber");
+        Object value = getCallDataField("dscNumber");
+        return value != null ? value.toString() : null;
     }
 
     public void setDscNumber(String dscNumber) {

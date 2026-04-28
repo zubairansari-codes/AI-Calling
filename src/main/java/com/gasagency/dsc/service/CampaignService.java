@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -35,7 +36,6 @@ public class CampaignService {
     private final BillingService billingService;
     private final ElevenLabsService elevenLabsService;
     private final CallTemplateService callTemplateService;
-    private final DynamicAgentConfigService dynamicAgentConfigService;
 
     public CampaignService(CampaignRepository campaignRepository,
                            CustomerRepository customerRepository,
@@ -43,8 +43,7 @@ public class CampaignService {
                            AgencyService agencyService,
                            BillingService billingService,
                            ElevenLabsService elevenLabsService,
-                           CallTemplateService callTemplateService,
-                           DynamicAgentConfigService dynamicAgentConfigService) {
+                           CallTemplateService callTemplateService) {
         this.campaignRepository = campaignRepository;
         this.customerRepository = customerRepository;
         this.callRepository = callRepository;
@@ -52,7 +51,6 @@ public class CampaignService {
         this.billingService = billingService;
         this.elevenLabsService = elevenLabsService;
         this.callTemplateService = callTemplateService;
-        this.dynamicAgentConfigService = dynamicAgentConfigService;
     }
 
     public Page<CampaignResponse> listCampaigns(Long agencyId, Pageable pageable) {

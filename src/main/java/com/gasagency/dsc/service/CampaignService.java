@@ -4,6 +4,7 @@ import com.gasagency.dsc.dto.*;
 import com.gasagency.dsc.entity.*;
 import com.gasagency.dsc.enums.CallStatus;
 import com.gasagency.dsc.enums.CampaignStatus;
+import com.gasagency.dsc.enums.CallType;
 import com.gasagency.dsc.repository.CallRepository;
 import com.gasagency.dsc.repository.CampaignRepository;
 import com.gasagency.dsc.repository.CustomerRepository;
@@ -33,24 +34,251 @@ public class CampaignService {
     private final AgencyService agencyService;
     private final BillingService billingService;
     private final ElevenLabsService elevenLabsService;
+    private final CallTemplateService callTemplateService;
+    private final DynamicAgentConfigService dynamicAgentConfigService;
 
     public CampaignService(CampaignRepository campaignRepository,
                            CustomerRepository customerRepository,
                            CallRepository callRepository,
                            AgencyService agencyService,
                            BillingService billingService,
-                           ElevenLabsService elevenLabsService) {
+                           ElevenLabsService elevenLabsService,
+                           CallTemplateService callTemplateService,
+                           DynamicAgentConfigService dynamicAgentConfigService) {
         this.campaignRepository = campaignRepository;
         this.customerRepository = customerRepository;
         this.callRepository = callRepository;
         this.agencyService = agencyService;
         this.billingService = billingService;
         this.elevenLabsService = elevenLabsService;
+        this.callTemplateService = callTemplateService;
+        this.dynamicAgentConfigService = dynamicAgentConfigService;
     }
 
     public Page<CampaignResponse> listCampaigns(Long agencyId, Pageable pageable) {
         return campaignRepository.findByAgencyId(agencyId, pageable)
                 .map(this::toCampaignResponse);
+    }
+
+    /**
+     * Create a dynamic campaign with specific call type
+     */
+    @Transactional
+    public CampaignResponse createDynamicCampaign(Long agencyId, CampaignCreateRequest request, CallType callType, Long templateId) {
+        Agency agency = agencyService.findById(agencyId)
+                .orElseThrow(() -> new EntityNotFoundException("Agency not found"));
+
+        // Get template if specified
+        CallTemplate template = null;
+        if (templateId != null) {
+            template = callTemplateService.getTemplate(templateId)
+                    .orElseThrow(() -> new EntityNotFoundException("Template not found"));
+            
+            // Validate template belongs to agency or is public
+            if (!template.getAgency().getId().equals(agencyId) && !template.getPublicTemplate()) {
+                throw new IllegalArgumentException("Template not accessible");
+            }
+        }
+
+        Campaign campaign = Campaign.builder()
+                .agency(agency)
+                .name(request.name())
+                .campaignType(callType)
+                .template(template)
+                .status(CampaignStatus.DRAFT)
+                .build();
+
+        // Set campaign configuration based on call type
+        if (request.campaignConfig() != null) {
+            campaign.setCampaignConfig(request.campaignConfig());
+        } else {
+            campaign.setCampaignConfig(createDefaultCampaignConfig(callType, request));
+        }
+
+        // Set backward compatible delivery date for DSC campaigns
+        if (callType == CallType.DSC_COLLECTION && request.deliveryDate() != null) {
+            campaign.setDeliveryDate(request.deliveryDate());
+        }
+
+        Campaign saved = campaignRepository.save(campaign);
+        log.info("Created dynamic campaign: {} with type: {} for agency: {}", 
+                saved.getName(), callType, agency.getName());
+
+        return toCampaignResponse(saved);
+    }
+
+    /**
+     * Create a custom campaign with user-defined purpose
+     */
+    @Transactional
+    public CampaignResponse createCustomCampaign(Long agencyId, CampaignCreateRequest request, String customPurpose) {
+        return createDynamicCampaign(agencyId, request, CallType.CUSTOM, null);
+    }
+
+    /**
+     * Get campaigns by call type
+     */
+    public Page<CampaignResponse> getCampaignsByCallType(Long agencyId, CallType callType, Pageable pageable) {
+        return campaignRepository.findByAgencyId(agencyId, pageable)
+                .stream()
+                .filter(campaign -> campaign.getCampaignType().equals(callType))
+                .collect(java.util.stream.Collectors.collectingAndThen(
+                        java.util.stream.Collectors.toList(),
+                        list -> new org.springframework.data.domain.PageImpl<>(
+                                list, pageable, list.size()
+                        )
+                ))
+                .map(this::toCampaignResponse);
+    }
+
+    /**
+     * Get campaign statistics by call type
+     */
+    public Map<String, Object> getCampaignStatisticsByCallType(Long agencyId) {
+        List<Campaign> campaigns = campaignRepository.findByAgencyId(agencyId);
+        
+        Map<CallType, Long> campaignsByType = campaigns.stream()
+                .collect(java.util.stream.Collectors.groupingBy(
+                        Campaign::getCampaignType,
+                        java.util.stream.Collectors.counting()
+                ));
+
+        Map<CallType, Map<String, Object>> typeStats = new java.util.HashMap<>();
+        
+        for (CallType type : CallType.values()) {
+            List<Campaign> typeCampaigns = campaigns.stream()
+                    .filter(c -> c.getCampaignType().equals(type))
+                    .collect(java.util.stream.Collectors.toList());
+            
+            int totalCalls = typeCampaigns.stream()
+                    .mapToInt(c -> c.getTotalCustomers() != null ? c.getTotalCustomers() : 0)
+                    .sum();
+            
+            int completedCalls = typeCampaigns.stream()
+                    .mapToInt(c -> c.getCompletedCalls() != null ? c.getCompletedCalls() : 0)
+                    .sum();
+            
+            int successfulCalls = typeCampaigns.stream()
+                    .mapToInt(c -> c.getSuccessfulCalls() != null ? c.getSuccessfulCalls() : 0)
+                    .sum();
+            
+            double successRate = completedCalls > 0 ? (double) successfulCalls / completedCalls * 100 : 0.0;
+            
+            typeStats.put(type, Map.of(
+                "campaignCount", typeCampaigns.size(),
+                "totalCalls", totalCalls,
+                "completedCalls", completedCalls,
+                "successfulCalls", successfulCalls,
+                "successRate", successRate
+            ));
+        }
+
+        return Map.of(
+            "campaignsByType", campaignsByType,
+            "typeStatistics", typeStats
+        );
+    }
+
+    /**
+     * Update campaign type and template
+     */
+    @Transactional
+    public CampaignResponse updateCampaignType(Long agencyId, Long campaignId, CallType callType, Long templateId) {
+        Campaign campaign = campaignRepository.findByIdAndAgencyId(campaignId, agencyId)
+                .orElseThrow(() -> new EntityNotFoundException("Campaign not found"));
+
+        // Get template if specified
+        CallTemplate template = null;
+        if (templateId != null) {
+            template = callTemplateService.getTemplate(templateId)
+                    .orElseThrow(() -> new EntityNotFoundException("Template not found"));
+            
+            // Validate template belongs to agency or is public
+            if (!template.getAgency().getId().equals(agencyId) && !template.getPublicTemplate()) {
+                throw new IllegalArgumentException("Template not accessible");
+            }
+        }
+
+        campaign.setCampaignType(callType);
+        campaign.setTemplate(template);
+        
+        // Update campaign configuration
+        campaign.setCampaignConfig(createDefaultCampaignConfig(callType, null));
+
+        Campaign saved = campaignRepository.save(campaign);
+        log.info("Updated campaign: {} to type: {} with template: {}", 
+                saved.getName(), callType, template != null ? template.getTemplateName() : "none");
+
+        return toCampaignResponse(saved);
+    }
+
+    /**
+     * Clone campaign with different call type
+     */
+    @Transactional
+    public CampaignResponse cloneCampaignWithNewType(Long agencyId, Long campaignId, CallType newCallType, String newName) {
+        Campaign original = campaignRepository.findByIdAndAgencyId(campaignId, agencyId)
+                .orElseThrow(() -> new EntityNotFoundException("Campaign not found"));
+
+        Campaign cloned = Campaign.builder()
+                .agency(original.getAgency())
+                .name(newName != null ? newName : original.getName() + " (" + newCallType.getDisplayName() + ")")
+                .campaignType(newCallType)
+                .template(original.getTemplate())
+                .status(CampaignStatus.DRAFT)
+                .campaignConfig(createDefaultCampaignConfig(newCallType, null))
+                .build();
+
+        Campaign saved = campaignRepository.save(cloned);
+        log.info("Cloned campaign: {} as {} with type: {}", 
+                original.getName(), saved.getName(), newCallType);
+
+        return toCampaignResponse(saved);
+    }
+
+    private Map<String, Object> createDefaultCampaignConfig(CallType callType, CampaignCreateRequest request) {
+        Map<String, Object> config = new java.util.HashMap<>();
+        
+        switch (callType) {
+            case DSC_COLLECTION:
+                config.put("purpose", "Collect delivery service codes");
+                config.put("expectedOutcome", "dsc_collected");
+                if (request != null && request.deliveryDate() != null) {
+                    config.put("deliveryDate", request.deliveryDate().toString());
+                }
+                break;
+            case PAYMENT_REMINDER:
+                config.put("purpose", "Remind about pending payments");
+                config.put("expectedOutcome", "payment_confirmed");
+                if (request != null) {
+                    config.put("paymentAmount", request.campaignConfig() != null ? 
+                            request.campaignConfig().get("paymentAmount") : "850");
+                }
+                break;
+            case COMPLAINT_RESOLUTION:
+                config.put("purpose", "Resolve customer complaints");
+                config.put("expectedOutcome", "complaint_resolved");
+                config.put("escalationEnabled", true);
+                break;
+            case EMERGENCY_RESPONSE:
+                config.put("purpose", "Handle emergency situations");
+                config.put("expectedOutcome", "emergency_handled");
+                config.put("priority", "critical");
+                break;
+            case SATISFACTION_SURVEY:
+                config.put("purpose", "Conduct satisfaction survey");
+                config.put("expectedOutcome", "survey_completed");
+                config.put("questions", List.of(
+                    "How satisfied are you with our service?",
+                    "Any suggestions for improvement?"
+                ));
+                break;
+            default:
+                config.put("purpose", "Custom calling campaign");
+                config.put("expectedOutcome", "call_completed");
+        }
+        
+        return config;
     }
 
     public CampaignResponse getCampaign(Long agencyId, Long campaignId) {

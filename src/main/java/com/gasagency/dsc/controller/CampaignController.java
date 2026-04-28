@@ -3,6 +3,7 @@ package com.gasagency.dsc.controller;
 import com.gasagency.dsc.dto.CallResponse;
 import com.gasagency.dsc.dto.CampaignCreateRequest;
 import com.gasagency.dsc.dto.CampaignResponse;
+import com.gasagency.dsc.enums.CallType;
 import com.gasagency.dsc.service.CampaignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/campaigns")
@@ -128,5 +130,98 @@ public class CampaignController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=dsc_numbers.csv")
                 .contentType(MediaType.parseMediaType("text/csv"))
                 .body(csv.toString());
+    }
+
+    /**
+     * Create a dynamic campaign with specific call type
+     */
+    @PostMapping("/dynamic")
+    @Operation(summary = "Create a dynamic campaign with specific call type")
+    public ResponseEntity<CampaignResponse> createDynamicCampaign(
+            HttpServletRequest request,
+            @RequestParam CallType callType,
+            @RequestParam(required = false) Long templateId,
+            @Valid @RequestBody CampaignCreateRequest campaignRequest) {
+        
+        Long agencyId = (Long) request.getAttribute("agency_id");
+        CampaignResponse response = campaignService.createDynamicCampaign(agencyId, campaignRequest, callType, templateId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    /**
+     * Create a custom campaign with user-defined purpose
+     */
+    @PostMapping("/custom")
+    @Operation(summary = "Create a custom campaign with user-defined purpose")
+    public ResponseEntity<CampaignResponse> createCustomCampaign(
+            HttpServletRequest request,
+            @RequestParam String customPurpose,
+            @Valid @RequestBody CampaignCreateRequest campaignRequest) {
+        
+        Long agencyId = (Long) request.getAttribute("agency_id");
+        CampaignResponse response = campaignService.createCustomCampaign(agencyId, campaignRequest, customPurpose);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    /**
+     * Get campaigns by call type
+     */
+    @GetMapping("/by-type/{callType}")
+    @Operation(summary = "Get campaigns by call type")
+    public ResponseEntity<Page<CampaignResponse>> getCampaignsByCallType(
+            HttpServletRequest request,
+            @PathVariable CallType callType,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        
+        Long agencyId = (Long) request.getAttribute("agency_id");
+        var pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<CampaignResponse> response = campaignService.getCampaignsByCallType(agencyId, callType, pageable);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Get campaign statistics by call type
+     */
+    @GetMapping("/statistics/by-type")
+    @Operation(summary = "Get campaign statistics by call type")
+    public ResponseEntity<Map<String, Object>> getCampaignStatisticsByCallType(
+            HttpServletRequest request) {
+        
+        Long agencyId = (Long) request.getAttribute("agency_id");
+        Map<String, Object> statistics = campaignService.getCampaignStatisticsByCallType(agencyId);
+        return ResponseEntity.ok(statistics);
+    }
+
+    /**
+     * Update campaign type and template
+     */
+    @PutMapping("/{id}/type")
+    @Operation(summary = "Update campaign type and template")
+    public ResponseEntity<CampaignResponse> updateCampaignType(
+            HttpServletRequest request,
+            @PathVariable Long id,
+            @RequestParam CallType callType,
+            @RequestParam(required = false) Long templateId) {
+        
+        Long agencyId = (Long) request.getAttribute("agency_id");
+        CampaignResponse response = campaignService.updateCampaignType(agencyId, id, callType, templateId);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Clone campaign with different call type
+     */
+    @PostMapping("/{id}/clone")
+    @Operation(summary = "Clone campaign with different call type")
+    public ResponseEntity<CampaignResponse> cloneCampaignWithNewType(
+            HttpServletRequest request,
+            @PathVariable Long id,
+            @RequestParam CallType newCallType,
+            @RequestParam(required = false) String newName) {
+        
+        Long agencyId = (Long) request.getAttribute("agency_id");
+        CampaignResponse response = campaignService.cloneCampaignWithNewType(agencyId, id, newCallType, newName);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }
